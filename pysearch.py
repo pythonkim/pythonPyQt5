@@ -8,7 +8,6 @@ class MainWindow(QMainWindow):
 
     def __init__(self):
         super(MainWindow, self).__init__()
-
         self.setWindowTitle('PySide2 WebEngineWidgets Example')
 
         self.toolBar = QToolBar()
@@ -39,34 +38,40 @@ class MainWindow(QMainWindow):
         self.addressLineEdit.returnPressed.connect(self.load)
         self.toolBar.addWidget(self.addressLineEdit)
 
-        self.forwardButton = QPushButton('네이버',self)
+        self.sButton01 = QPushButton('네이버',self)
         #self.forwardButton.('네이버')
-        self.forwardButton.clicked.connect(self.forward)
-        self.toolBar.addWidget(self.forwardButton)
-        self.forwardButton = QPushButton('구글',self)
+        self.sButton01.clicked.connect(self.button_clicked)
+        self.toolBar.addWidget(self.sButton01)
+
+        self.sButton02 = QPushButton('구글',self)
         #self.forwardButton.setIcon(QIcon(':/qt-project.org/styles/commonstyle/images/right-32.png'))
-        self.forwardButton.clicked.connect(self.forward)
-        self.toolBar.addWidget(self.forwardButton)
-        self.forwardButton = QPushButton('유튜브',self)
+        self.sButton02.clicked.connect(self.button_clicked)
+        self.toolBar.addWidget(self.sButton02)
+
+        self.sButton03 = QPushButton('유튜브',self)
         #self.forwardButton.setIcon(QIcon(':/qt-project.org/styles/commonstyle/images/right-32.png'))
-        self.forwardButton.clicked.connect(self.forward)
-        self.toolBar.addWidget(self.forwardButton)
-        self.forwardButton = QPushButton('인스타그램',self)
+        self.sButton03.clicked.connect(self.button_clicked)
+        self.toolBar.addWidget(self.sButton03)
+
+        self.sButton04 = QPushButton('인스타그램',self)
         #self.forwardButton.setIcon(QIcon(':/qt-project.org/styles/commonstyle/images/right-32.png'))
-        self.forwardButton.clicked.connect(self.forward)
-        self.toolBar.addWidget(self.forwardButton)
-        self.forwardButton = QPushButton('다음', self)
+        self.sButton04.clicked.connect(self.button_clicked)
+        self.toolBar.addWidget(self.sButton04)
+
+        self.sButton05 = QPushButton('다음', self)
         # self.forwardButton.setIcon(QIcon(':/qt-project.org/styles/commonstyle/images/right-32.png'))
-        self.forwardButton.clicked.connect(self.forward)
-        self.toolBar.addWidget(self.forwardButton)
-        self.forwardButton = QPushButton('줌', self)
+        self.sButton05.clicked.connect(self.button_clicked)
+        self.toolBar.addWidget(self.sButton05)
+
+        self.sButton06 = QPushButton('줌', self)
         # self.forwardButton.setIcon(QIcon(':/qt-project.org/styles/commonstyle/images/right-32.png'))
-        self.forwardButton.clicked.connect(self.forward)
-        self.toolBar.addWidget(self.forwardButton)
-        self.forwardButton = QPushButton('도움말', self)
+        self.sButton06.clicked.connect(self.button_clicked)
+        self.toolBar.addWidget(self.sButton06)
+
+        self.sButton07 = QPushButton('도움말', self)
         # self.forwardButton.setIcon(QIcon(':/qt-project.org/styles/commonstyle/images/right-32.png'))
-        self.forwardButton.clicked.connect(self.forward)
-        self.toolBar.addWidget(self.forwardButton)
+        self.sButton07.clicked.connect(self.button_clicked)
+        self.toolBar.addWidget(self.sButton07)
 
         self.webEngineView = QWebEngineView()
         self.setCentralWidget(self.webEngineView)
@@ -77,8 +82,6 @@ class MainWindow(QMainWindow):
         self.addressLineEdit.setText('')
         self.webEngineView.load(QUrl(initialUrl))
         self.webEngineView.page().titleChanged.connect(self.setWindowTitle)
-        self.webEngineView.page().urlChanged.connect(self.urlChanged)
-
 
 
     def load(self):
@@ -94,8 +97,55 @@ class MainWindow(QMainWindow):
     def forward(self):
         self.webEngineView.page().triggerAction(QWebEnginePage.Forward)
 
-    def urlChanged(self, url):
-        self.addressLineEdit.setText(url.toString())
+
+
+    def button_clicked(self):
+        url = ""
+        search_keyword = self.addressLineEdit.text()
+        search_engine = self.sender().text()
+        if search_engine == '네이버':
+            url = "https://search.naver.com/search.naver?sm=top_hty&fbm=1&ie=utf8&query=" + search_keyword
+            self.webEngineView.load(url) #보여줘라
+            if url.isValid():
+                self.webEngineView.load('https://www.naver.com')
+        elif search_engine == '구글':
+            url = "https://www.google.com/search?newwindow=1&hl=ko&source=hp&ei=pcpjXe78KpG7wAPP8biACA&q=" + search_keyword
+            self.webEngineView.load(url)
+            if not search_keyword:
+                self.webEngineView.load('https://www.google.com')
+        elif search_engine == '유튜브':
+            url = "https://www.youtube.com/results?search_query=" + search_keyword
+            self.webEngineView.load(url)
+            if not search_keyword:
+                self.webEngineView.load('https://www.youtube.com/')
+
+        elif search_engine == '인스타그램':
+            url = "https://www.instagram.com/explore/tags/" + search_keyword
+            self.webEngineView.load(url)
+            if not search_keyword:
+                self.webEngineView.load('https://www.instagram.com/')
+
+        elif search_engine == '다음':
+            url = "https://search.daum.net/search?w=tot&DA=YZR&t__nil_searchbox=btn&sug=&sugo=&q=" + search_keyword
+            self.webEngineView.load(url)
+            if not search_keyword:
+                self.webEngineView.load('https://www.daum.net/')
+
+        elif search_engine == '줌':
+            url = "http://search.zum.com/search.zum?method=uni&option=accu&rd=1&qm=f_typing.top&query=" + search_keyword
+            self.webEngineView.load(url)
+            if not search_keyword:
+                self.webEngineView.load('http://zum.com')
+        elif search_engine == '도움말':
+            url = "https://styleranker.co.kr"
+            self.webEngineView.load(url)
+
+
+
+
+        print(search_engine)
+        self.curCat = self.sender().text()
+        print(self.curCat)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
