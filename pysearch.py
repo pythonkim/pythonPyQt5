@@ -23,7 +23,7 @@ class MainWindow(QMainWindow):
         self.toolBar.addWidget(self.forwardButton)
 
         self.backButton = QPushButton('새로고침')
-        self.backButton.clicked.connect(self.back)
+        self.backButton.clicked.connect(self.reload)
         self.toolBar.addWidget(self.backButton)
 
         self.qcomboBox = QComboBox() #
@@ -76,8 +76,7 @@ class MainWindow(QMainWindow):
         self.webEngineView = QWebEngineView()
         self.setCentralWidget(self.webEngineView)
 
-        #initialUrl = 'http://qt.io'
-        initialUrl = "https://www.celebreview.kr/"
+        initialUrl = "https://www.naver.com/"
 
         self.addressLineEdit.setText('')
         self.webEngineView.load(QUrl(initialUrl))
@@ -90,12 +89,14 @@ class MainWindow(QMainWindow):
         url1 = "https://search.naver.com/search.naver?sm=top_hty&fbm=1&ie=utf8&query=" + self.addressLineEdit.text()
         if url.isValid():
             self.webEngineView.load(url1)
+    def reload(self):
+        self.webEngineView.page().triggerAction(QWebEnginePage.Reload) #이렇게 하면 새로고침이 되네
 
     def back(self):
-        self.webEngineView.page().triggerAction(QWebEnginePage.Back)
+        self.webEngineView.page().triggerAction(QWebEnginePage.Back) #뒤로가기
 
     def forward(self):
-        self.webEngineView.page().triggerAction(QWebEnginePage.Forward)
+        self.webEngineView.page().triggerAction(QWebEnginePage.Forward) #앞으로
 
 
 
